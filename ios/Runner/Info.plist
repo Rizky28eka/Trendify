@@ -45,5 +45,33 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<!-- Konfigurasi Google Sign-In -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<!-- Ganti dengan REVERSED_CLIENT_ID Anda -->
+				<string>348945422454-303eiio65h86escaa53iqib6m9lqmslr.apps.googleusercontent.com</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDSignIn</key>
+	<dict>
+		<key>ClientId</key>
+		<string>348945422454-303eiio65h86escaa53iqib6m9lqmslr.apps.googleusercontent.com</string>
+		<key>ServerClientId</key>
+		<string>348945422454-303eiio65h86escaa53iqib6m9lqmslr.apps.googleusercontent.com</string>
+	</dict>
+
+	<!-- Other required configurations -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>google</string>
+		<string>com.googleusercontent.apps</string>
+	</array>
 </dict>
 </plist>
