@@ -1,35 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:trendify2/apps/data/service/auth_service.dart';
 
 class LoginController extends GetxController {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
-  final RxBool isEmailLoading = false.obs;
-  final RxBool isGoogleLoading = false.obs;
+  void signin(BuildContext context) async {
+    final email = emailController.text;
+    final password = passwordController.text;
 
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  Future<void> login() async {
-    if (formKey.currentState?.validate() ?? false) {
-      isEmailLoading.value = true;
-      try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim(),
-        );
-
-        Get.offAllNamed('/home');
-      } on FirebaseAuthException catch (e) {
-        Get.snackbar(
-          'Login Error',
-          e.message ?? 'Unknown error occurred',
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      } finally {
-        isEmailLoading.value = false;
-      }
+    if (email.isEmpty || password.isEmpty) {
+      Get.snackbar('Error', 'Please fill in all fields');
+      return;
     }
+
+    final success = await AuthService()
+        .signin(email: email, password: password, context: context);
+
+    if (success) {
+      Get.offAllNamed('/HOME'); // Navigate to home page
+    } else {
+      Get.snackbar('Error', 'Sign in failed');
+    }
+  }
+
+  @override
+  void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
   }
 }

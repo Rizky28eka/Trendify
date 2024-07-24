@@ -6,10 +6,13 @@ import 'package:trendify2/apps/routes/app_pages.dart';
 import 'package:trendify2/apps/routes/app_routes.dart';
 import 'package:trendify2/apps/utils/constants.dart';
 import 'package:trendify2/apps/utils/theme.dart';
+import 'package:trendify2/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   Get.put(ResponsiveUtils());
   runApp(const MyApp());
 }
