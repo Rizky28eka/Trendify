@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "348945422454",
+    "project_id": "trendify-3f4f5",
+    "storage_bucket": "trendify-3f4f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348945422454:android:674234e9d36da560bc6757",
+        "android_client_info": {
+          "package_name": "com.rizky28eka.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnfiOa1xK1F5PDWNaTOip6qo3yc-BU53o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
