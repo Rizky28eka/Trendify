@@ -4,9 +4,9 @@ import 'package:trendify2/apps/utils/constants.dart';
 class IconTextButtonWidget extends StatefulWidget {
   final String? text;
   final Widget? icon;
-  final TextInputType? keyboardType;
   final VoidCallback? onPressed;
   final bool isLoading;
+  final TextInputType? keyboardType;
   final ValueChanged<String>? onChanged;
 
   const IconTextButtonWidget({
@@ -24,51 +24,30 @@ class IconTextButtonWidget extends StatefulWidget {
 }
 
 class _IconTextButtonWidgetState extends State<IconTextButtonWidget> {
-  late ValueNotifier<bool> _isEnabledNotifier;
-
-  @override
-  void initState() {
-    super.initState();
-    _isEnabledNotifier = ValueNotifier<bool>(true);
-  }
-
-  @override
-  void dispose() {
-    _isEnabledNotifier.dispose();
-    super.dispose();
-  }
+  bool _isEnabled = true;
 
   @override
   Widget build(BuildContext context) {
-    double deviceWidth = MediaQuery.of(context).size.width;
-    double deviceHeight = MediaQuery.of(context).size.height;
-
     return SizedBox(
-      height: deviceHeight * 0.05,
-      width: deviceWidth * 0.9,
-      child: ValueListenableBuilder<bool>(
-        valueListenable: _isEnabledNotifier,
-        builder: (context, isEnabled, child) {
-          return ElevatedButton(
-            onPressed: !widget.isLoading && isEnabled ? widget.onPressed : null,
-            style: ElevatedButton.styleFrom(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              backgroundColor:
-                  !widget.isLoading && isEnabled ? primaryColor : Colors.grey,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-            ),
-            child: Center(
-              child: widget.isLoading
-                  ? const CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    )
-                  : _buildButtonContent(),
-            ),
-          );
-        },
+      height: MediaQuery.of(context).size.height * 0.05,
+      width: MediaQuery.of(context).size.width * 0.9,
+      child: ElevatedButton(
+        onPressed: !widget.isLoading && _isEnabled ? widget.onPressed : null,
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          backgroundColor:
+              !widget.isLoading && _isEnabled ? primaryColor : Colors.grey,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+        ),
+        child: Center(
+          child: widget.isLoading
+              ? const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                )
+              : _buildButtonContent(),
+        ),
       ),
     );
   }

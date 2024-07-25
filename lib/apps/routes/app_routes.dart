@@ -4,4 +4,5 @@ class AppRoutes {
   static const REGISTER = '/register';
   static const HOME = '/home';
   static const ONBOARDING = '/onboarding';
+  static const FORGOTPASSWORD = '/forgot-password';
 }

@@ -1,71 +1,97 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:trendify2/apps/controllers/login_controller.dart';
-import 'package:trendify2/apps/ui/pages/auth/register_page.dart';
+import 'package:trendify2/apps/ui/widgets/text_form_field_widget.dart';
+import 'package:trendify2/apps/ui/widgets/icon_text_button_widget.dart';
+import 'package:trendify2/apps/utils/constants.dart';
 
 class LoginPage extends StatelessWidget {
   final LoginController loginController = Get.put(LoginController());
+  final ResponsiveUtils responsiveUtils = Get.find<ResponsiveUtils>();
+  final _formKey = GlobalKey<FormState>();
 
   LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: true,
       bottomNavigationBar: _signup(context),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 100,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Container(
-            margin: const EdgeInsets.only(left: 10),
-            decoration: const BoxDecoration(
-                color: Color(0xffF7F7F9), shape: BoxShape.circle),
-            child: const Center(
-              child: Icon(
-                Icons.arrow_back_ios_new_rounded,
-                color: Colors.black,
-              ),
-            ),
-          ),
-        ),
-      ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Center(
-                child: Text(
-                  'Hello Again',
-                  style: GoogleFonts.raleway(
-                      textStyle: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 32)),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(
+              horizontal: responsiveUtils.getWidthPercentage(0.04),
+              vertical: responsiveUtils.getHeightPercentage(0.02),
+            ),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: 400,
+              ),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Welcome\n',
+                            style: headingTextStyle.copyWith(
+                              fontSize:
+                                  responsiveUtils.getWidthPercentage(0.12),
+                              color: primaryColor,
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'back!',
+                            style: headingTextStyle.copyWith(
+                              fontSize:
+                                  responsiveUtils.getWidthPercentage(0.12),
+                              color: secondaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: responsiveUtils.getHeightPercentage(0.02),
+                    ),
+                    Text(
+                      "Discover top trends and exclusive deals in our e-commerce platform. Ready to explore the best products and offers?",
+                      textAlign: TextAlign.left,
+                      style: bodyTextStyle.copyWith(
+                        fontSize: responsiveUtils.getWidthPercentage(0.03),
+                      ),
+                    ),
+                    SizedBox(
+                      height: responsiveUtils.getHeightPercentage(0.03),
+                    ),
+                    _emailAddress(),
+                    SizedBox(
+                      height: responsiveUtils.getHeightPercentage(0.02),
+                    ),
+                    _password(),
+                    _forgotPassword(),
+                    SizedBox(
+                      height: responsiveUtils.getHeightPercentage(0.02),
+                    ),
+                    _signin(),
+                    SizedBox(
+                      height: responsiveUtils.getHeightPercentage(0.02),
+                    ),
+                    _orText(),
+                    SizedBox(
+                      height: responsiveUtils.getHeightPercentage(0.02),
+                    ),
+                    _googleSignInButton(),
+                  ],
                 ),
               ),
-              const SizedBox(
-                height: 80,
-              ),
-              _emailAddress(),
-              const SizedBox(
-                height: 20,
-              ),
-              _password(),
-              const SizedBox(
-                height: 50,
-              ),
-              _signin(context),
-            ],
+            ),
           ),
         ),
       ),
@@ -73,113 +99,134 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _emailAddress() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Email Address',
-          style: GoogleFonts.raleway(
-              textStyle: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 16)),
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        TextField(
-          controller: loginController.emailController,
-          decoration: InputDecoration(
-              filled: true,
-              hintText: 'mahdiforwork@gmail.com',
-              hintStyle: const TextStyle(
-                  color: Color(0xff6A6A6A),
-                  fontWeight: FontWeight.normal,
-                  fontSize: 14),
-              fillColor: const Color(0xffF7F7F9),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(14))),
-        )
-      ],
+    return TextFormFieldWidget(
+      controller: loginController.emailController,
+      hintText: 'Email',
+      icon: Icons.email,
+      keyboardType: TextInputType.emailAddress,
+      textColor: Colors.black,
+      hintColor: const Color(0xff6A6A6A),
+      borderColor: const Color(0xffF7F7F9),
+      cursorColor: Colors.grey,
+      iconColor: Colors.grey,
+      suffixIconColor: Colors.grey.withOpacity(0.7),
+      onChanged: (value) {},
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter your email';
+        }
+        return null;
+      },
     );
   }
 
   Widget _password() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Password',
-          style: GoogleFonts.raleway(
-              textStyle: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 16)),
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        TextField(
-          obscureText: true,
-          controller: loginController.passwordController,
-          decoration: InputDecoration(
-              filled: true,
-              fillColor: const Color(0xffF7F7F9),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(14))),
-        )
-      ],
+    return TextFormFieldWidget(
+      obscureText: true,
+      controller: loginController.passwordController,
+      hintText: 'Password',
+      icon: Icons.lock,
+      textColor: Colors.black,
+      hintColor: const Color(0xff6A6A6A),
+      borderColor: const Color(0xffF7F7F9),
+      cursorColor: Colors.grey,
+      iconColor: Colors.grey,
+      suffixIconColor: Colors.grey.withOpacity(0.7),
+      onChanged: (value) {},
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter your password';
+        }
+        return null;
+      },
     );
   }
 
-  Widget _signin(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xff0D6EFD),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
+  Widget _forgotPassword() {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: TextButton(
+        onPressed: () {
+          Get.toNamed('/FORGOT_PASSWORD');
+        },
+        child: Text(
+          'Forgot Password?',
+          style: bodyTextStyle.copyWith(
+            color: primaryColor,
+            fontSize: responsiveUtils.getWidthPercentage(0.03),
+          ),
         ),
-        minimumSize: const Size(double.infinity, 60),
-        elevation: 0,
       ),
-      onPressed: () {
-        loginController.signin(context);
-      },
-      child: const Text("Sign In"),
+    );
+  }
+
+  Widget _signin() {
+    return SizedBox(
+      width: double.infinity,
+      child: IconTextButtonWidget(
+        text: 'Sign In',
+        onPressed: () {
+          if (_formKey.currentState?.validate() ?? false) {
+            loginController.signin(Get.context!);
+          }
+        },
+        isLoading: loginController.isLoading.value,
+      ),
+    );
+  }
+
+  Widget _googleSignInButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: IconTextButtonWidget(
+        text: 'Sign in with Google',
+        onPressed: () {
+          loginController.signInWithGoogle();
+        },
+        isLoading: loginController.isLoading.value,
+      ),
+    );
+  }
+
+  Widget _orText() {
+    return Center(
+      child: Text(
+        'OR',
+        style: bodyTextStyle.copyWith(
+          fontSize: responsiveUtils.getWidthPercentage(0.03),
+          fontWeight: FontWeight.bold,
+          color: Colors.black.withOpacity(0.5),
+        ),
+      ),
     );
   }
 
   Widget _signup(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(children: [
-            const TextSpan(
-              text: "New User? ",
-              style: TextStyle(
-                  color: Color(0xff6A6A6A),
-                  fontWeight: FontWeight.normal,
-                  fontSize: 16),
+    return Container(
+      margin: EdgeInsets.all(responsiveUtils.getWidthPercentage(0.04)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Don\'t have an account? ',
+            style: bodyTextStyle.copyWith(
+              fontSize: responsiveUtils.getWidthPercentage(0.03),
             ),
-            TextSpan(
-                text: "Create Account",
-                style: const TextStyle(
-                    color: Color(0xff1A1D1E),
-                    fontWeight: FontWeight.normal,
-                    fontSize: 16),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegisterPage()),
-                    );
-                  }),
-          ])),
+          ),
+          TextButton(
+            onPressed: () {
+              Get.toNamed('/REGISTER');
+            },
+            child: Text(
+              'Sign Up',
+              style: bodyTextStyle.copyWith(
+                color: primaryColor,
+                fontSize: responsiveUtils.getWidthPercentage(0.03),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
